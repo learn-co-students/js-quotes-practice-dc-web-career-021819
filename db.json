@@ -29,6 +29,12 @@
       "quote": "Success is not final, failure is not fatal: it is the courage to continue that counts.",
       "likes": 3,
       "author": "Winston Churchhill"
+    },
+    {
+      "quote": "Screw you guys, I'm a goin' home",
+      "likes": 10,
+      "author": "Eric Cartman",
+      "id": 6
     }
   ]
 }

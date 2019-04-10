@@ -3,6 +3,26 @@ document.addEventListener('DOMContentLoaded', initialize)
 function initialize(){
   document.querySelector('#quote-list').innerHTML = ""
   getQuotes().then(renderQuotes)
+  document.querySelector('.btn-primary').addEventListener('click', newQuote)
+}
+
+
+function newQuote(event){
+  event.preventDefault()
+  const form = event.target.parentElement
+  const text = form.querySelector('#new-quote').value
+  const author = form.author.value
+  createQuote({quote: text, likes: 0, author: author})
+  form.reset()
+}
+
+function createQuote(quoteObj){
+  const url = `http://localhost:3000/quotes/`
+  options = {method: "POST",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify(quoteObj)}
+  fetch(url, options).then(resp => resp.json())
+  .then(renderQuote)
 }
 
 function getQuotes(){
@@ -89,5 +109,5 @@ function deleteQuote(event){
   let options = {method: "DELETE",
   headers: {"Content-Type": "application/json"}}
   fetch(url, options)
-  event.target.parentNode.parentNode.remove()
+  .then(event.target.parentNode.parentNode.remove())
 }
