@@ -43,7 +43,7 @@ function renderQuote(quote){
       likeBtn.className = 'btn-success'
       likeBtn.innerText = "Likes: "
       likeBtn.dataset.id = quote.id
-      likeBtn.dataset.numLikes = quote.likes
+      likeBtn.dataset.likes = quote.likes
       likeBtn.addEventListener('click', likeQuote)
       quoteBlock.appendChild(likeBtn)
         // numLikes
@@ -61,8 +61,25 @@ function renderQuote(quote){
 }
 
 function likeQuote(event){
-  console.log(event.target.parentNode)
+  const id = event.target.dataset.id
+  let likes = event.target.dataset.likes
+  updateLikes({id: id, likes: ++likes})
+}
 
+function updateLikes(likeObj){
+  const url = `http://localhost:3000/quotes/${likeObj.id}`
+  delete likeObj.id
+  options = {method: "PATCH",
+  headers: {"Content-Type": "application/json"},
+  body: JSON.stringify(likeObj)}
+  fetch(url, options)
+  .then(resp => resp.json())
+  .then(function(quote){
+    const quoteElement = document.getElementById(quote.id)
+    const likeBtn = quoteElement.querySelector('.btn-success')
+    likeBtn.dataset.likes = quote.likes
+    likeBtn.firstElementChild.innerText = quote.likes
+  })
 }
 
 function deleteQuote(event){
