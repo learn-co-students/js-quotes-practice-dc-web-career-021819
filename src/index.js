@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', initialize)
 
 function initialize(){
+  document.querySelector('#quote-list').innerHTML = ""
   getQuotes().then(renderQuotes)
 }
 
@@ -83,5 +84,10 @@ function updateLikes(likeObj){
 }
 
 function deleteQuote(event){
-  console.log("it's gone")
+  const id = event.target.dataset.id
+  const url = `http://localhost:3000/quotes/${id}`
+  console.log(url, id)
+  let options = {method: "DELETE",
+  headers: {"Content-Type": "application/json"}}
+  fetch(url, options).then(initialize)
 }
